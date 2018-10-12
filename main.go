@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.Header)
 		if r.Method == "GET" {
 			w.WriteHeader(200)
 			w.Header().Set("Content-Type", "application/json")
@@ -28,7 +30,7 @@ func main() {
 		}
 		fmt.Println(string(data))
 		w.WriteHeader(201)
-		w.Header().Set("Conent-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(`{"ok":"world"}`))
 	})
 	http.ListenAndServe("0.0.0.0:8081", nil)
